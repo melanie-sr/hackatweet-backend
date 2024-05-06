@@ -30,4 +30,15 @@ router.get("/getTweets", (req, res) => {
     });
 });
 
+router.delete("/deleteTweet/:id", (req, res) => {
+  if (!checkUser(req.body, ["token", "message"])) {
+    res.json({ results: false, error: "Missing or empty fields" });
+    return;
+  }
+
+  Tweet.deleteOne({ _id: req.params.id }).then(() =>
+    res.json({ result: true })
+  );
+});
+
 module.exports = router;
